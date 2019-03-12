@@ -1,0 +1,13 @@
+body {
+    width: 1920px;
+    height: 1080px;
+    background-color: #19203b;
+    opacity: 0.89;
+    color: #fff;
+}
+
+.form-input {
+    padding-top: 450px;
+    padding-left: 650px;
+    font-size: 40px;
+}
