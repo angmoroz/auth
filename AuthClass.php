@@ -6,22 +6,14 @@
  * @author дизайн студия ox2.ru 
  */ 
 class AuthClass {
-    private $_login; //Устанавливаем логин
-    private $_password; //Устанавливаем пароль
+    //private $_login; //Устанавливаем логин
+    //private $_password; //Устанавливаем пароль
 	
-	/*function __construct() {
-		$link = $this->ConnectBD();
-		
-		$query = $link->query("SELECT id,login, password FROM users WHERE login='".$link->real_escape_string($_POST['login'])."' LIMIT 1");
 
-		$data = $query->fetch_assoc();
-		
-		$this->_login  = $data['login'];
-		$this->_password = $data['password'];
-	}*/
-	
 	public function ConnectBD() {
 		$link = @mysqli_connect('localhost', 'root', '', 'ww');
+		mysqli_set_charset($link,"utf8");
+
 
 		if (!$link) {
 			die('Connect Error: ' . mysqli_connect_errno());
@@ -35,6 +27,7 @@ class AuthClass {
      * @return boolean 
      */
     public function isAuth() {
+		//var_dump($_SESSION);
         if (isset($_SESSION["is_auth"])) { //Если сессия существует
             return $_SESSION["is_auth"]; //Возвращаем значение переменной сессии is_auth (хранит true если авторизован, false если не авторизован)
         }
@@ -55,7 +48,11 @@ class AuthClass {
 		$data = $query->fetch_assoc();
 		
         if ($login == $data['login'] && md5(md5($passwors)) == $data['password']) { //Если логин и пароль введены правильно
-            $_SESSION["is_auth"] = true; //Делаем пользователя авторизованным
+			
+			//$hash = md5(generateCode(10)); //hash='".$hash."'
+
+			$_SESSION["is_auth"] = true; //Делаем пользователя авторизованным
+			//$_SESSION["hash"] = $hash;
             $_SESSION["login"] = $login; //Записываем в сессию логин пользователя
             return true;
         }
@@ -109,7 +106,7 @@ class AuthClass {
         session_destroy(); //Уничтожаем
     }
 	
-	
+	// not in use yet
 	public function generateCode($length=6) {
 
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHI JKLMNOPRQSTUVWXYZ0123456789";
@@ -124,6 +121,88 @@ class AuthClass {
 
 		return $code;
 
+	}
+	
+	public function selectMigrant($num) {
+		
+		$link = $this->ConnectBD();
+		$result = array();
+		
+		$query = $link->query("SELECT region, operator FROM `defs` WHERE ibegin <= ".$link->real_escape_string($num)." and iend >= ".$link->real_escape_string($num));
+		$row = mysqli_fetch_row($query);
+		if($row)
+		{
+			$res = "Номер телефона: ".$num."; регион: ".$row[0]."; оператор: ".$row[1].";" ;
+			$result[0] = $num;
+			$result[1] = $res;
+		} else {
+			$result = array();
+		}
+		 return $result;
+	}
+	
+	
+	public function selectByNum($num) {
+		
+		$link = $this->ConnectBD();
+		
+		$res = '';
+		
+		$query = $link->query("SELECT number, RegionCode, ownerid, donorid,  mnc, portdate from portsall where Number = ".$link->real_escape_string($num));
+		
+		if($query) {
+			$row = mysqli_fetch_row($query);
+			
+			if($row)
+			{
+				$res[0] = $num;
+				$res[1] = "Номер телефона: ".$row[0]."; регион: ".$row[1]."; оператор: ".$row[2]."; старый оператор: ".$row[3]."; сеть: ".$row[4]."; дата переноса: ".$row[5];
+				
+			} else {
+				$res = $this->selectMigrant($num);
+			}
+		}
+		
+		return $res;
+		
+	}
+	
+	public function selectByNums($nums) {
+		
+		$link = $this->ConnectBD();
+		
+		$res = array();
+		$arr = array();
+		$migrants = array();
+		$result = array();
+		$all = array();
+		
+		$query = "SELECT number, RegionCode, ownerid, donorid,  mnc, portdate from portsall where ";
+		
+		foreach($nums as $num) {
+			$query .= "number = ".$num." or ";
+		}
+		
+		$query = rtrim($query, 'or ');
+
+		$query1 = $link->query($query);
+
+		while ($row = $query1->fetch_row()) {
+			
+			$arr[]=$row[0];
+			$result[0] = $row[0];
+			$result[1] = "Номер телефона: ".$row[0]."; регион: ".$row[1]."; оператор: ".$row[2]."; старый оператор: ".$row[3]."; сеть: ".$row[4]."; дата переноса: ".$row[5];
+			$all[] = $result;
+		}
+
+		foreach ($nums as $key) {
+			
+			if(!in_array($key, $arr)) {
+				$migrants[] = $this->selectMigrant($key);
+			}
+		}
+		
+		return array_merge($all,$migrants);
 	}
 }
  

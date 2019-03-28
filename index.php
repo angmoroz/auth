@@ -7,7 +7,7 @@ $auth = new AuthClass();
 
 if (isset($_POST["login"]) && isset($_POST["password"])) { //Если логин и пароль были отправлены
     if (!$auth->auth($_POST["login"], $_POST["password"])) { //Если логин и пароль введен не правильно
-        echo "<h2 style=\"color:red;\">Логин и пароль введен не правильно!</h2>";
+        echo "<h2 style=\"color:red;\">Логин и пароль введен не правильно! Или необходимо подтверждение нового пользователя администратором</h2>";
     }
 }
 
@@ -26,11 +26,39 @@ if ($auth->isAuth()) { // Если пользователь авторизова
 } 
 else { //Если не авторизован, показываем форму ввода логина и пароля
 ?>
-<form method="post" action="">
-    Логин: <input type="text" name="login" value="<?php echo (isset($_POST["login"])) ? $_POST["login"] : null; // Заполняем поле по умолчанию ?>" /><br/>
-    Пароль: <input type="password" name="password" value="" /><br/>
-    <input type="submit" value="Войти" />
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Whois call services</title>
+	<script src="js/jquery.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" >
+	
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body class="text-center">
+
+<div class="container">
+
+	<div class="row">
+		<div class="row">
+
+		<!--<a class="form-control" href="index.php?is_exit=1">Exit</a>-->
+		</div>
+<form method="post" class="form-signin" action="">
+    <input class="form-control" type="text" name="login" placeholder="Логин" value="<?php echo (isset($_POST["login"])) ? $_POST["login"] : null; // Заполняем поле по умолчанию ?>" autofocus />
+    <input class="form-control" type="password"  placeholder="Пароль" name="password" value="" />
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Войти" />
 	
 	<a href="register.php">Регистрация</a>
 </form>
+	</div>
+</div>
+
+</body>
+
+</html>
 <?php } ?>

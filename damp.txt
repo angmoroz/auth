@@ -1,0 +1,154 @@
+﻿-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+
+-- База данных: `ww`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `portsall`
+--
+
+DROP TABLE IF EXISTS `portsall`;
+CREATE TABLE `portsall` (
+  `id` int(11) NOT NULL,
+  `Number` varchar(10) NOT NULL,
+  `OwnerId` varchar(50) NOT NULL,
+  `MNC` varchar(16) NOT NULL,
+  `Route` varchar(8) NOT NULL,
+  `RegionCode` varchar(16) NOT NULL,
+  `PortDate` varchar(50) NOT NULL,
+  `RowCount` varchar(8) NOT NULL,
+  `NPId` varchar(16) NOT NULL,
+  `DonorId` varchar(50) NOT NULL,
+  `RangeHolderId` varchar(50) NOT NULL,
+  `OldRoute` varchar(8) NOT NULL,
+  `OldMNC` varchar(16) NOT NULL,
+  `ProcessType` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `portsall`
+--
+
+INSERT INTO `portsall` (`id`, `Number`, `OwnerId`, `MNC`, `Route`, `RegionCode`, `PortDate`, `RowCount`, `NPId`, `DonorId`, `RangeHolderId`, `OldRoute`, `OldMNC`, `ProcessType`) VALUES
+(490114, '9006725420', 'mBEELINE', '99', 'D5799', '57', '2016-05-01T02:00:04+03:00', '0', '1000000005064145', 'mTELE2', 'mTELE2', '', '', 'ShortTimePort');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `portsall`
+--
+ALTER TABLE `portsall`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `portsall`
+--
+ALTER TABLE `portsall`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1363987;
+COMMIT;
+
+
+--
+-- База данных: `ww`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `operator`
+--
+DROP TABLE IF EXISTS `operator`;
+CREATE TABLE `operator` (
+  `id` int(11) NOT NULL,
+  `orgcode` varchar(50) NOT NULL,
+  `mnc` varchar(6) NOT NULL,
+  `tin` varchar(100) NOT NULL,
+  `orgname` varchar(1024) NOT NULL,
+  `rowcount` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `operator`
+--
+
+INSERT INTO `operator` (`id`, `orgcode`, `mnc`, `tin`, `orgname`, `rowcount`) VALUES
+(1, 'mAIKONEKT', '9', '', 'Айконнект ООО', '126');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `operator`
+--
+ALTER TABLE `operator`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `operator`
+--
+ALTER TABLE `operator`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `login` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `role` tinyint(4) NOT NULL DEFAULT '2',
+  `hash` varchar(32) NOT NULL,
+  `user_ip` int(10) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `users` (`id`, `login`, `password`, `role`, `hash`, `user_ip`) VALUES
+(1, 'test', 'fb469d7ef430b0baf0cab6c436e70375', 3, '004477fdc89a3b774f0939ba896df8d4', 0);
+
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+  
+  
+  ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DROP TABLE IF EXISTS `defs`;
+CREATE TABLE `defs` (
+  `id` int(11) NOT NULL,
+  `operator` varchar(1024) NOT NULL,
+  `region` varchar(1024) NOT NULL,
+  `kod` varchar(20) NOT NULL,
+  `begin` varchar(20) NOT NULL,
+  `end` varchar(20) NOT NULL,
+  `ibegin` bigint(11) NOT NULL,
+  `iend` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `defs`
+  ADD PRIMARY KEY (`id`);
+  
+  ALTER TABLE `defs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

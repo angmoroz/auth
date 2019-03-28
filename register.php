@@ -83,16 +83,37 @@ if(isset($_POST['submit']))
 }
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Whois call services</title>
+	<script src="js/jquery.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" >
+	
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body class="text-center">
+
+<div class="container">
+
+	<div class="row">
 
 
 
+<form class="form-signin"  method="POST">
 
-<form method="POST">
+<input class="form-control" name="login" placeholder="Логин" type="text">
 
-Логин <input name="login" type="text"><br>
+<input class="form-control" name="password" placeholder="Пароль" type="password">
 
-Пароль <input name="password" type="password"><br>
-
-<input name="submit" type="submit" value="Зарегистрироваться">
+<input class="btn btn-lg btn-primary btn-block" name="submit" type="submit" value="Зарегистрироваться">
 
 </form>
+	</div>
+</div>
+
+</body>
